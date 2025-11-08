@@ -1,0 +1,169 @@
+# Nama   : Geovivamay Firsteta
+# NIM    : G.231.230115
+# Kelas  : B Sore
+
+openapi: "3.0.2"
+info:
+  title: API Wisata
+  description: Dokumentasi API Wisata Matkul Rekayasa Web
+  version: "1.0"
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: admin@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: http://localhost/json/server
+
+tags: 
+  - name: token
+    description: >
+      Endpoint untuk mendapatkan token dengan akun login (username dan password)
+      dan mengambil token dari tabel user.
+  - name: CRUD
+    description: >
+      Endpoint untuk API CRUD data Wisata dengan Autorisasi token JWT.
+
+paths:
+  /wisata:
+    get:
+      tags:
+        - CRUD
+      description: Endpoint API untuk mengambil semua data wisata
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Wisata'
+
+    post:
+      tags:
+        - CRUD
+      description: Endpoint API untuk tambah data wisata
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/insertWisata'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/insertWisata'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/insertWisata'
+      responses:
+        '200':
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wisata'
+
+  /wisata/{id}:
+    get:
+      tags:
+        - CRUD
+      description: Endpoint API untuk mengambil data wisata tertentu sesuai ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id_wisata
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wisata'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Wisata'
+
+    put:
+      tags:
+        - CRUD
+      description: Update data wisata tertentu sesuai ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id_wisata
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/insertWisata'
+      responses:
+        '200':
+          description: OK, sukses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wisata'
+
+    delete:
+      tags:
+        - CRUD
+      description: Hapus data wisata tertentu sesuai ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id_wisata
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK, sukses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wisata'
+
+components: 
+  schemas:
+    Wisata:
+      type: object
+      properties:
+        id_wisata:
+          type: integer
+          format: int64
+          example: 1
+        kota: 
+          type: string
+          example: SEMARANG
+        landmark:
+          type: string
+          example: LAWANG SEWU
+        tarif:
+          type: string
+          example: "20000000"
+
+    insertWisata:
+      type: object
+      properties:
+        kota: 
+          type: string
+          example: SEMARANG
+        landmark:
+          type: string
+          example: LAWANG SEWU
+        tarif:
+          type: string
+          example: "20000000"
